@@ -1,0 +1,1390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Jian Wang</title>
+  <meta name="author" content="Jian Wang" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="stylesheet.css" />
+  <link rel="icon" type="image/x-icon" href="https://123publicdata.s3-ap-southeast-1.amazonaws.com/personal/favor.ico" />
+  <style>
+    /* Collapsible paper styles */
+    .paper-container {
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      padding: 15px;
+      background: #fafafa;
+      transition: all 0.3s ease;
+    }
+    
+    .paper-container:hover {
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .paper-header {
+      cursor: pointer;
+      display: flex;
+      align-items: flex-start;
+      gap: 15px;
+    }
+    
+    .paper-thumbnail {
+      flex-shrink: 0;
+      width: 100%;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.3s ease, opacity 0.3s ease, margin-top 0.3s ease;
+    }
+    
+    .paper-container.expanded .paper-thumbnail {
+      max-height: 600px;
+      opacity: 1;
+      margin-top: 15px;
+    }
+    
+    .paper-thumbnail img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+    }
+    
+    .paper-info {
+      flex-grow: 1;
+    }
+    
+    .paper-title {
+      font-size: 1.1em;
+      font-weight: bold;
+      color: #0066cc;
+      margin: 0 0 8px 0;
+    }
+    
+    .paper-title:hover {
+      text-decoration: underline;
+    }
+    
+    .paper-authors {
+      color: #555;
+      margin: 5px 0;
+      font-size: 0.95em;
+    }
+
+    .paper-authors a {
+      color: #555;
+      text-decoration: none;
+    }
+
+    .paper-authors a:hover {
+      text-decoration: underline;
+    }
+    
+    .venue-row {
+      display: flex;
+      align-items: flex-start;
+      flex-wrap: nowrap;
+      gap: 8px;
+    }
+
+    .paper-venue {
+      color: #666;
+      font-style: italic;
+      margin: 5px 0;
+      font-size: 0.9em;
+    }
+    
+    .paper-short-desc {
+      color: #444;
+      margin: 10px 0 0 0;
+      font-size: 0.9em;
+      line-height: 1.5;
+    }
+    
+    .expand-icon {
+      color: #888;
+      font-size: 1.2em;
+      line-height: 1.2em;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+    
+    .paper-container.expanded .expand-icon {
+      transform: rotate(180deg);
+    }
+    
+    .paper-details {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+      margin-top: 15px;
+    }
+    
+    .paper-container.expanded .paper-details {
+      max-height: 3000px;
+    }
+    
+    .detail-section {
+      margin: 15px 0;
+      padding: 15px;
+      background: white;
+      border-radius: 4px;
+      border-left: 3px solid #0066cc;
+      position: relative;
+    }
+    
+    .detail-section h3 {
+      margin-top: 0;
+      color: #333;
+      font-size: 1em;
+    }
+    
+    .abstract-text {
+      line-height: 1.6;
+      color: #444;
+    }
+
+    /* Citation block and copy button */
+    .citation-wrapper {
+      position: relative;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      border: 1px solid #0066cc;
+      background: #f0f8ff;
+      color: #0066cc;
+      border-radius: 4px;
+      font-size: 0.8em;
+      padding: 4px 8px;
+      cursor: pointer;
+      line-height: 1.2;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .copy-btn.copied {
+      background: #d1ffd6;
+      border-color: #1a7f37;
+      color: #1a7f37;
+    }
+
+    .citation-block {
+      background: #f5f5f5;
+      padding: 15px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+      overflow-x: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      margin-top: 30px;
+    }
+    
+    .paper-links {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+    
+    .paper-links a {
+      color: #0066cc;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .paper-links a:hover {
+      text-decoration: underline;
+    }
+    
+    .highlight-badge {
+      display: inline-block;
+      background: #ffd700;
+      color: #333;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 0.8em;
+      font-weight: bold;
+      margin-left: 5px;
+    }
+
+    /* Keyword tags */
+    .paper-keywords {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 8px 0;
+    }
+
+    .keyword-tag {
+      display: inline-block;
+      background: #e3f2fd;
+      color: #1565c0;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.85em;
+      font-weight: 500;
+      border: 1px solid #90caf9;
+    }
+  .exp-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #fafafa;
+    transition: box-shadow 0.3s ease;
+  }
+  .exp-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .exp-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+  .exp-header .exp-title {
+    font-size: 1.05em;
+    font-weight: bold;
+    color: #0066cc;
+  }
+  .exp-header .exp-title:hover { text-decoration: underline; }
+  .exp-period {
+    font-size: 0.88em;
+    color: #888;
+    font-style: italic;
+    white-space: nowrap;
+  }
+  .exp-role-loc {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  .exp-highlights {
+    list-style: none;
+    margin: 0 0 10px 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .exp-highlights li {
+    font-size: 0.92em;
+    line-height: 1.55;
+    color: #444;
+    padding-left: 1.1em;
+    position: relative;
+  }
+  .exp-highlights li::before {
+    content: '\25B8';
+    position: absolute;
+    left: 0;
+    color: #bbb;
+    font-size: 0.8em;
+    top: 3px;
+  }
+  .exp-keywords {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .exp-keywords .keyword-tag {
+    display: inline-block;
+    background: #e3f2fd;
+    color: #1565c0;
+    padding: 2px 9px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 500;
+    border: 1px solid #90caf9;
+    font-family: Arial, sans-serif;
+  }
+  .highlight-badge {
+    display: inline-block;
+    background: #ffd700;
+    color: #333;
+    padding: 1px 7px;
+    border-radius: 3px;
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-left: 6px;
+    font-family: Arial, sans-serif;
+  }
+  .exp-pipeline {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    font-size: 0.82em;
+    font-family: 'Courier New', monospace;
+    margin-top: 7px;
+  }
+  .exp-pipeline .pbox {
+    background: #e3f2fd;
+    border: 1px solid #90caf9;
+    border-radius: 4px;
+    padding: 2px 9px;
+    color: #1565c0;
+    white-space: nowrap;
+  }
+  .exp-pipeline .parrow { color: #aaa; }
+  .exp-note {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #fff;
+    border-left: 3px solid #0066cc;
+    border-radius: 4px;
+    font-size: 0.88em;
+    color: #555;
+  }
+  </style>
+</head>
+
+<body>
+  <table style="width:100%;max-width:800px;border:0;border-spacing:0;border-collapse:separate;margin:0 auto;">
+    <tbody>
+      <tr>
+        <td style="padding:0;">
+          <!-- Header / Intro -->
+          <table style="width:100%;border:0;border-spacing:0;border-collapse:separate;margin:0 auto;">
+            <tbody>
+              <tr>
+                <td style="padding:2.5%;width:63%;vertical-align:middle;">
+                  <p style="text-align:center;margin:0;">
+                    <h1 style="margin:0;">Jian Wang (王剑)</h1>
+                  </p>
+                  <p>
+                    Jian Wang is a Ph.D. candidate (expected Mar 2026, now at job market ) at the College of Computing and Data Science (CCDS), Nanyang Technological University (NTU), Singapore, advised by
+                    <a href="https://personal.ntu.edu.sg/yi_li/">Prof. Li Yi</a>. His work focuses on code LLM security and intelligence.
+                  </p>
+
+                  <p style="text-align:center;">
+                    <a href="mailto:jian004@e.ntu.edu.sg">Email</a> &nbsp;/&nbsp;
+                    <a href="data/JianWang_cv.pdf">CV</a> &nbsp;/&nbsp;
+                    <a href="data/jornbowrl-bio.txt">Biography</a> &nbsp;/&nbsp;
+                    <a href="https://scholar.google.com/citations?hl=en&user=GAe_mJUAAAAJ">Google Scholar</a> &nbsp;/&nbsp;
+                    <a href="https://twitter.com/jornbowrl">Twitter</a>
+                  </p>
+                </td>
+
+                <td style="padding:2.5%;width:40%;max-width:40%;text-align:center;vertical-align:middle;">
+                  <a href="images/jornbowrl2.jpg">
+                    <img
+                      src="https://123publicdata.s3.ap-southeast-1.amazonaws.com/personal/w.jpg"
+                      alt="Jian Wang profile photo"
+                      class="hoverZoomLink"
+                      style="width:50%;max-width:50%;height:auto;"
+                    />
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Bio -->
+          <table style="width:100%;border:0;border-spacing:0;border-collapse:separate;margin:0 auto;">
+            <tbody>
+              <tr>
+                <td style="padding:20px;width:100%;vertical-align:middle;">
+                  <h2>Bio</h2>
+                  <p>
+                    Since 2019, Jian has been a research assistant at SMU (2023-Aug - present) and NTU(2020-2023 Aug). Previously, he was a researcher at Xiaomi AI Lab and a software engineer at 58.com.
+                  </p>
+                  <p>
+                    He expects to receive his Ph.D. from NTU in 2026 and holds a B.A. in Software Engineering from Tianjin University (2011).
+                  </p>
+                  <p>
+		  Jian's research interests lie at the intersection of Software Engineering, Large Language Models, and Trustworthy AI Systems. Using deep learning and retrieval-augmented methods as the core driving engine, he develops automated techniques for program repair and AI-generated code detection, applying them toward enhancing software reliability—from identifying untrusted AI-generated code to automatically fixing bugs in safety-critical systems. He is particularly passionate about semantically grounded program understanding LLM, moving beyond pattern matching to genuine reasoning about code behavior and runtime execution.
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Research -->
+          <table style="width:100%;border:0;border-spacing:0;border-collapse:separate;margin:0 auto;">
+            <tbody>
+              <tr>
+                <td style="padding:20px;">
+                  <h2>Research</h2>
+                  
+                  <!-- Paper 1: Defects4C -->
+                  <div class="paper-container">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                      <div class="paper-info">
+                        <div class="paper-title">
+                          Defects4C: Benchmarking Large Language Model Repair Capability with C/C++ Bugs
+                          <span class="highlight-badge">Featured</span>
+                        </div>
+                        <div class="paper-authors" onclick="event.stopPropagation();">
+                          <a href="https://scholar.google.com/citations?hl=en&user=GAe_mJUAAAAJ"><strong>Jian Wang</strong></a>,
+                          <a href="https://xiaofeixie.bitbucket.io/">Xiaofei Xie</a>,
+                          <a href="https://wellido.github.io/">Qiang Hu</a>,
+                          <a href="https://shangqing-liu.github.io/">Shangqing Liu</a>,
+                          <a href="https://ttfish.cc/">Jiongchi Yu</a>,
+                          <a href="#">Jiaolong Kong</a>,
+                          <a href="https://personal.ntu.edu.sg/yi_li/">Yi Li</a>
+                        </div>
+                        <div class="venue-row">
+                          <div class="paper-venue">
+                            In Proceedings of the 40th IEEE/ACM International Conference on Automated Software Engineering (ASE), 2025
+                          </div>
+                          <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="paper-keywords">
+                          <span class="keyword-tag">Program Repair</span>
+                          <span class="keyword-tag">C/C++ Benchmark</span>
+                          <span class="keyword-tag">LLM Evaluation</span>
+                        </div>
+                        <div class="paper-short-desc">
+                          We introduce Defects4C, a comprehensive benchmark for evaluating LLM-based automated program repair capabilities on C/C++ bugs, addressing the significant gap in C/C++ repair research.
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="paper-thumbnail">
+                      <img src="images/defects4c.png" alt="Defects4C thumbnail" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'400\'%3E%3Crect fill=\'%23ddd\' width=\'800\' height=\'400\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\' font-size=\'24\'%3EDefects4C%3C/text%3E%3C/svg%3E'" />
+                    </div>
+                    
+                    <div class="paper-details">
+                      <div id="abstract-1" class="detail-section">
+                        <h3>Abstract</h3>
+                        <div class="abstract-text">
+                          Automated Program Repair (APR) plays a critical role in enhancing the quality and reliability of software systems. While substantial progress has been made in Java-based APR, largely facilitated by benchmarks like Defects4J, there remains a significant gap in research on C/C++ program repair, despite the widespread use of C/C++ and the prevalence of associated vulnerabilities. This paper introduces Defects4C, a comprehensive benchmark designed to evaluate and advance LLM-based automated repair techniques for C/C++ programs.
+                        </div>
+                      </div>
+                      
+                      <div id="cite-1" class="detail-section">
+                        <h3>Citation</h3>
+                        <div class="citation-wrapper">
+                          <button class="copy-btn" data-copy-target="cite-1-text" onclick="copyCitation(event, this)">📋 Copy</button>
+                          <div id="cite-1-text" class="citation-block">@inproceedings{Wang2025DBL,
+  author = {Wang, Jian and Xie, Xiaofei and Hu, Qiang and Liu, Shangqing and Yu, Jiongchi and Kong, Jiaolong and Li, Yi},
+  booktitle = {Proceedings of the 40th IEEE/ACM International Conference on Automated Software Engineering (ASE)},
+  month = nov,
+  title = {{Defects4C}: Benchmarking Large Language Model Repair Capability with {C/C++} Bugs},
+  year = {2025}
+}</div>
+                        </div>
+                      </div>
+                      
+                      <div id="links-1" class="detail-section">
+                        <h3>Resources</h3>
+                        <div class="paper-links">
+                          <a href="https://arxiv.org/abs/2510.11059" target="_blank">📄 Paper</a>
+                          <a href="https://github.com/defects4c/defects4c" target="_blank">💻 Github</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+                  <!-- Paper 4: Do Code Semantics Help? -->
+                  <div class="paper-container">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                      <div class="paper-info">
+                        <div class="paper-title">
+                          Do Code Semantics Help? A Comprehensive Study on Execution Trace-Based Information for Code Large Language Models
+                        </div>
+                        <div class="paper-authors" onclick="event.stopPropagation();">
+                          <a href="https://scholar.google.com/citations?hl=en&user=GAe_mJUAAAAJ"><strong>Jian Wang</strong></a>,
+                          <a href="https://xiaofeixie.bitbucket.io/">Xiaofei Xie</a>,
+                          <a href="https://wellido.github.io/">Qiang Hu</a>,
+                          <a href="https://shangqing-liu.github.io/">Shangqing Liu</a>,
+                          <a href="https://personal.ntu.edu.sg/yi_li/">Yi Li</a>
+                        </div>
+                        <div class="venue-row">
+                          <div class="paper-venue">
+                            In Findings of the Association for Computational Linguistics: EMNLP, 2025
+                          </div>
+                          <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="paper-keywords">
+                          <span class="keyword-tag">Execution Traces</span>
+                          <span class="keyword-tag">Code Semantics</span>
+                          <span class="keyword-tag">LLM Reasoning</span>
+                        </div>
+                        <div class="paper-short-desc">
+                          This paper investigates whether enriching prompts or training signals with semantic/runtime information (like execution traces) actually improves Code LLM reasoning. The study proposes a generic framework for injecting such semantics into both supervised fine-tuning and inference-time prompting, and finds that — contrary to prior claims — the gains are often limited.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="paper-thumbnail">
+                      <img src="images/emnlp.png"
+                          alt="Code semantics / execution traces thumbnail"
+                          onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'400\'%3E%3Crect fill=\'%23ddd\' width=\'800\' height=\'400\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\' font-size=\'24\'%3ETrace Study%3C/text%3E%3C/svg%3E'" />
+                    </div>
+
+                    <div class="paper-details">
+                      <div id="abstract-4" class="detail-section">
+                        <h3>Abstract</h3>
+                        <div class="abstract-text">
+                          Code Large Language Models (Code LLMs) have shown impressive capabilities but still struggle to deeply reason about runtime behavior and actual program functionality. We identify two key challenges: (1) weak reasoning over program execution, and (2) inconsistent ways of representing semantic signals like execution traces, which hurts generalization. We propose a general framework for integrating semantic, trace-based information into prompts for code tasks, and we conduct a broad empirical study examining how such information affects both supervised fine-tuning (SFT) and test-time inference (post-training prompting). Surprisingly, our results challenge prior optimism: execution-trace semantic signals offer only limited benefits for SFT and test-time scaling of Code LLMs, suggesting that naive "just add traces" strategies are not enough to close LLM reasoning gaps.
+                        </div>
+                      </div>
+
+                      <div id="cite-4" class="detail-section">
+                        <h3>Citation</h3>
+                        <div class="citation-wrapper">
+                          <button class="copy-btn" data-copy-target="cite-4-text" onclick="copyCitation(event, this)">📋 Copy</button>
+                          <div id="cite-4-text" class="citation-block">
+@inproceedings{Wang2025DCS,
+  author = {Wang, Jian and Xie, Xiaofei and Hu, Qiang and Liu, Shangqing and Li, Yi},
+  booktitle = {Findings of the Association for Computational Linguistics: EMNLP},
+  month = nov,
+  title = {Do Code Semantics Help? A Comprehensive Study on Execution Trace-Based Information for Code Large Language Models},
+  year = {2025}
+}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div id="links-4" class="detail-section">
+                        <h3>Resources</h3>
+                        <div class="paper-links">
+                          <a href="https://aclanthology.org/2025.findings-emnlp.548/" target="_blank">📄 Paper</a>
+                          <a href="https://arxiv.org/abs/2509.11686" target="_blank">📚 arXiv</a>
+                          <a href="https://github.com/jianwang-ntu/tracewise_probing/blob/main/emnlp_trace_poster.pdf" target="_blank">📚 poster</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Paper 2: RATCHET -->
+                  <div class="paper-container">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                      <div class="paper-info">
+                        <div class="paper-title">
+                          RATCHET: Retrieval Augmented Transformer for Program Repair
+                        </div>
+                        <div class="paper-authors" onclick="event.stopPropagation();">
+                          <a href="https://scholar.google.com/citations?hl=en&user=GAe_mJUAAAAJ"><strong>Jian Wang</strong></a>,
+                          <a href="https://shangqing-liu.github.io/">Shangqing Liu</a>,
+                          <a href="https://xiaofeixie.bitbucket.io/">Xiaofei Xie</a>,
+                          <a href="#">Jing Kai Siow</a>,
+                          <a href="#">Kui Liu</a>,
+                          <a href="https://personal.ntu.edu.sg/yi_li/">Yi Li</a>
+                        </div>
+                        <div class="venue-row">
+                          <div class="paper-venue">
+                            In Proceedings of the 35th International Symposium on Software Reliability Engineering (ISSRE), 2024
+                          </div>
+                          <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="paper-keywords">
+                          <span class="keyword-tag">Fault Localization</span>
+                          <span class="keyword-tag">Retrieval-Augmented</span>
+                          <span class="keyword-tag">Deep Learning APR</span>
+                        </div>
+                        <div class="paper-short-desc">
+                          Ratchet is a dual deep-learning Automated Program Repair (APR) system with (1) Ratchet-FL for fault localization using only code (no failing tests or bug reports) and (2) Ratchet-PG for patch generation using a retrieval-augmented transformer trained on historical fixes. Ratchet outperforms prior deep learning APR approaches on both localization and repair accuracy.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="paper-thumbnail">
+                      <img src="images/issre.png"
+                          alt="RATCHET APR thumbnail"
+                          onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'400\'%3E%3Crect fill=\'%23ddd\' width=\'800\' height=\'400\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\' font-size=\'24\'%3ERATCHET%3C/text%3E%3C/svg%3E'" />
+                    </div>
+
+                    <div class="paper-details">
+                      <div id="abstract-2" class="detail-section">
+                        <h3>Abstract</h3>
+                        <div class="abstract-text">
+                          Automated Program Repair (APR) aims to relieve developers from manual debugging by automatically fixing bugs. Current approaches face two core challenges: (1) fault localization frequently depends on extra artifacts (e.g., failing tests, bug reports) that may not exist early in development, and (2) seq2seq-style patch generation needs high-quality contextual hints, which are hard to obtain consistently. This paper proposes Ratchet, a dual deep-learning APR framework. Ratchet-FL locates buggy statements using a BiLSTM model directly over code, without relying on bug-triggering tests or bug reports. Ratchet-PG generates candidate patches using a retrieval augmented transformer that learns from historical fixes. Evaluations on both an in-the-lab dataset (DrRepair) and an in-the-wild dataset (Ratchet-DS) show that Ratchet achieves 39.8–96.4% localization accuracy and 18.4–46.4% repair accuracy, outperforming state-of-the-art baselines.
+                        </div>
+                      </div>
+
+                      <div id="cite-2" class="detail-section">
+                        <h3>Citation</h3>
+                        <div class="citation-wrapper">
+                          <button class="copy-btn" data-copy-target="cite-2-text" onclick="copyCitation(event, this)">📋 Copy</button>
+                          <div id="cite-2-text" class="citation-block">
+@inproceedings{Wang2024RAT,
+  author = {Wang, Jian and Liu, Shangqing and Xie, Xiaofei and Siow, Jing Kai and Liu, Kui and Li, Yi},
+  booktitle = {Proceedings of the 35th International Symposium on Software Reliability Engineering (ISSRE)},
+  month = oct,
+  pages = {427--438},
+  title = {{RATCHET}: Retrieval Augmented Transformer for Program Repair},
+  year = {2024}
+}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div id="links-2" class="detail-section">
+                        <h3>Resources</h3>
+                        <div class="paper-links">
+                          <a href="./data/issre_RATCHET.pdf" target="_blank">📄 Paper</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <!-- Paper 3: AIGC Detectors on Code Content -->
+                  <div class="paper-container">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                      <div class="paper-info">
+                        <div class="paper-title">
+                          An Empirical Study to Evaluate AIGC Detectors on Code Content
+                        </div>
+                        <div class="paper-authors" onclick="event.stopPropagation();">
+                          <a href="https://scholar.google.com/citations?hl=en&user=GAe_mJUAAAAJ"><strong>Jian Wang</strong></a>,
+                          <a href="https://shangqing-liu.github.io/">Shangqing Liu</a>,
+                          <a href="https://xiaofeixie.bitbucket.io/">Xiaofei Xie</a>,
+                          <a href="https://personal.ntu.edu.sg/yi_li/">Yi Li</a>
+                        </div>
+                        <div class="venue-row">
+                          <div class="paper-venue">
+                            In Proceedings of the 39th IEEE/ACM International Conference on Automated Software Engineering (ASE), 2024
+                          </div>
+                          <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="paper-keywords">
+                          <span class="keyword-tag">AIGC Detection</span>
+                          <span class="keyword-tag">Code Security</span>
+                          <span class="keyword-tag">LLM-Generated Code</span>
+                        </div>
+                        <div class="paper-short-desc">
+                          This work systematically evaluates commercial and open-source AI-generated content (AIGC) detectors on code-related content from modern LLMs (GPT-3.5, WizardCoder, CodeLlama). The study reveals that detectors trained on natural language struggle with code, and that fine-tuning helps within-domain but generalization remains weak.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="paper-thumbnail">
+                      <img src="images/emp.png"
+                          alt="AIGC detector evaluation thumbnail"
+                          onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'400\'%3E%3Crect fill=\'%23ddd\' width=\'800\' height=\'400\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\' font-size=\'24\'%3EAIGC%3C/text%3E%3C/svg%3E'" />
+                    </div>
+
+                    <div class="paper-details">
+                      <div id="abstract-3" class="detail-section">
+                        <h3>Abstract</h3>
+                        <div class="abstract-text">
+                          Large language models (LLMs) like ChatGPT can generate high-quality code, summaries, and Q&amp;A-style responses for software tasks. This creates both productivity benefits and new risks, including academic dishonesty and unvetted code in safety-critical settings. While many AIGC detectors have been introduced and benchmarked on natural language prose, their robustness on programming-related content is unclear. This paper conducts the first large-scale evaluation of thirteen AIGC detectors — six commercial and seven open source — on code-oriented outputs from GPT-3.5, WizardCoder, and CodeLlama. We build a dataset of 2.23M samples spanning Q&amp;A (150K), code summarization (1M), and code generation (1.1M). Results show that current detectors generally underperform on code compared to natural language, and although fine-tuning improves within-domain detection, cross-domain generalization remains challenging.
+                        </div>
+                      </div>
+
+                      <div id="cite-3" class="detail-section">
+                        <h3>Citation</h3>
+                        <div class="citation-wrapper">
+                          <button class="copy-btn" data-copy-target="cite-3-text" onclick="copyCitation(event, this)">📋 Copy</button>
+                          <div id="cite-3-text" class="citation-block">
+@inproceedings{Wang2024AES,
+  author = {Wang, Jian and Liu, Shangqing and Xie, Xiaofei and Li, Yi},
+  booktitle = {Proceedings of the 39th IEEE/ACM International Conference on Automated Software Engineering (ASE)},
+  month = oct,
+  pages = {844--856},
+  title = {An Empirical Study to Evaluate {AIGC} Detectors on Code Content},
+  year = {2024}
+}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div id="links-3" class="detail-section">
+                        <h3>Resources</h3>
+                        <div class="paper-links">
+                          <a href="https://dl.acm.org/doi/10.1145/3691620.3695468" target="_blank">📄 Paper</a>
+                          <a href="https://liyiweb.com/files/Wang2024AES.slides.pdf" target="_blank">📚 slides</a>
+                          <a href="https://sites.google.com/view/nlccd" target="_blank">📚 website</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+
+
+                  <!-- Paper 5: Enhancing Code Vulnerability Detection -->
+                  <div class="paper-container">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                      <div class="paper-info">
+                        <div class="paper-title">
+                          Enhancing Code Vulnerability Detection via Vulnerability-Preserving Data Augmentation
+                        </div>
+                        <div class="paper-authors" onclick="event.stopPropagation();">
+                          <a href="https://shangqing-liu.github.io/">Shangqing Liu</a>,
+                          <a href="#">Wei Ma</a>,
+                          <a href="https://scholar.google.com/citations?hl=en&user=GAe_mJUAAAAJ"><strong>Jian Wang</strong></a>,
+                          <a href="https://xiaofeixie.bitbucket.io/">Xiaofei Xie</a>,
+                          <a href="#">Ruitao Feng</a>,
+                          <a href="#">Yang Liu</a>
+                        </div>
+                        <div class="venue-row">
+                          <div class="paper-venue">
+                            Proceedings of the ACM SIGPLAN/SIGBED International Conference on Languages, Compilers, and Tools for Embedded Systems (LCTES), 2024
+                          </div>
+                          <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="paper-keywords">
+                          <span class="keyword-tag">Vulnerability Detection</span>
+                          <span class="keyword-tag">Data Augmentation</span>
+                          <span class="keyword-tag">Graph Neural Networks</span>
+                        </div>
+                        <div class="paper-short-desc">
+                          The authors propose FGVulDet, a fine-grained vulnerability detector that uses multiple classifiers to identify specific vulnerability types, plus a novel vulnerability-preserving data augmentation strategy to combat data scarcity. An edge-aware GGNN model captures rich code semantics and improves generalization.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="paper-thumbnail">
+                      <img src="images/fgvuldet.png"
+                          alt="FGVulDet vulnerability detection thumbnail"
+                          onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'400\'%3E%3Crect fill=\'%23ddd\' width=\'800\' height=\'400\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\' font-size=\'24\'%3EFGVulDet%3C/text%3E%3C/svg%3E'" />
+                    </div>
+
+                    <div class="paper-details">
+                      <div id="abstract-6" class="detail-section">
+                        <h3>Abstract</h3>
+                        <div class="abstract-text">
+                          Source code vulnerability detection aims to surface exploitable weaknesses before attackers can abuse them. Many prior methods reduce this task to binary classification (vulnerable vs. not vulnerable), which ignores the diversity of vulnerability types and limits model generalization — especially under limited training data. This work introduces FGVulDet, a fine-grained vulnerability detector that (1) trains specialized classifiers for different vulnerability types and fuses them to infer the specific vulnerability category, and (2) performs vulnerability-preserving data augmentation to improve coverage for underrepresented classes. Building on recent advances in code representation via graph neural networks, we adapt and extend a Gated Graph Neural Network (GGNN) into an edge-aware GGNN that incorporates edge-type information. Trained on a large GitHub-derived dataset spanning five vulnerability types, FGVulDet outperforms both static-analysis-based and learning-based baselines.
+                        </div>
+                      </div>
+
+                      <div id="cite-6" class="detail-section">
+                        <h3>Citation</h3>
+                        <div class="citation-wrapper">
+                          <button class="copy-btn" data-copy-target="cite-6-text" onclick="copyCitation(event, this)">📋 Copy</button>
+                          <div id="cite-6-text" class="citation-block">
+@inproceedings{liu2024enhancing,
+  title={Enhancing code vulnerability detection via vulnerability-preserving data augmentation},
+  author={Liu, Shangqing and Ma, Wei and Wang, Jian and Xie, Xiaofei and Feng, Ruitao and Liu, Yang},
+  booktitle={Proceedings of the 25th ACM SIGPLAN/SIGBED International Conference on Languages, Compilers, and Tools for Embedded Systems},
+  pages={166--177},
+  year={2024}
+}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div id="links-6" class="detail-section">
+                        <h3>Resources</h3>
+                        <div class="paper-links">
+                          <a href="https://arxiv.org/abs/2404.09599" target="_blank">📚 arXiv</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <!-- Paper 6: Faire (Fairness Repair) -->
+                  <div class="paper-container">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                      <div class="paper-info">
+                        <div class="paper-title">
+                          Faire: Repairing Fairness of Neural Networks via Neuron Condition Synthesis
+                        </div>
+                        <div class="paper-authors" onclick="event.stopPropagation();">
+                          <a href="#">Tianlin Li</a>,
+                          <a href="https://xiaofeixie.bitbucket.io/">Xiaofei Xie</a>,
+                          <a href="https://scholar.google.com/citations?hl=en&user=GAe_mJUAAAAJ"><strong>Jian Wang</strong></a>,
+                          <a href="#">Qing Guo</a>,
+                          <a href="#">Aishan Liu</a>,
+                          <a href="https://www.malei.org/">Lei Ma</a>,
+                          <a href="#">Yang Liu</a>
+                        </div>
+                        <div class="venue-row">
+                          <div class="paper-venue">
+                            ACM Transactions on Software Engineering and Methodology (TOSEM)
+                          </div>
+                          <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="paper-keywords">
+                          <span class="keyword-tag">Fairness Repair</span>
+                          <span class="keyword-tag">Neural Network Testing</span>
+                          <span class="keyword-tag">Bias Mitigation</span>
+                        </div>
+                        <div class="paper-short-desc">
+                          Faire repairs unfair behavior in DNNs by identifying neurons linked to protected attributes and inserting new "condition layers" that penalize biased neurons and reward task-relevant ones — achieving &gt;99% repair rate without requiring extra discriminatory examples.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="paper-thumbnail">
+                      <img src="images/faire.png"
+                          alt="Faire fairness repair thumbnail"
+                          onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'400\'%3E%3Crect fill=\'%23ddd\' width=\'800\' height=\'400\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\' font-size=\'24\'%3EFaire%3C/text%3E%3C/svg%3E'" />
+                    </div>
+
+                    <div class="paper-details">
+                      <div id="abstract-7" class="detail-section">
+                        <h3>Abstract</h3>
+                        <div class="abstract-text">
+                          Ensuring fairness in deep neural networks (DNNs) is challenging because biased decision logic is often entangled with model internals. This article presents Faire, a technique to repair discriminatory behavior in DNNs efficiently and effectively — without requiring additional fairness-specific data such as curated discriminatory examples. Inspired by traditional program repair, Faire localizes unfair decision logic within the network and injects synthesized neuron-level conditions to suppress protected-attribute features and promote task-relevant features. Concretely, Faire (1) analyzes neurons to identify which ones encode protected-attribute information versus task information, and (2) inserts condition layers after each hidden layer to penalize biased neurons and amplify non-biased ones. Faire achieves over 99% repair rate and completes the repair process within a few hundred seconds, outperforming prior fairness-repair methods while maintaining utility.
+                        </div>
+                      </div>
+
+                      <div id="cite-7" class="detail-section">
+                        <h3>Citation</h3>
+                        <div class="citation-wrapper">
+                          <button class="copy-btn" data-copy-target="cite-7-text" onclick="copyCitation(event, this)">📋 Copy</button>
+                          <div id="cite-7-text" class="citation-block">
+@article{li2023faire,
+  title={Faire: Repairing fairness of neural networks via neuron condition synthesis},
+  author={Li, Tianlin and Xie, Xiaofei and Wang, Jian and Guo, Qing and Liu, Aishan and Ma, Lei and Liu, Yang},
+  journal={ACM Transactions on Software Engineering and Methodology},
+  volume={33},
+  number={1},
+  pages={1--24},
+  year={2023},
+  publisher={ACM New York, NY}
+}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div id="links-7" class="detail-section">
+                        <h3>Resources</h3>
+                        <div class="paper-links">
+                          <a href="https://dl.acm.org/doi/10.1145/3617168" target="_blank">📄 Paper</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <!-- Paper 7: NPC (Neuron Path Coverage) -->
+                  <div class="paper-container">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                      <div class="paper-info">
+                        <div class="paper-title">
+                          NPC: Neuron Path Coverage via Characterizing Decision Logic of Deep Neural Networks
+                        </div>
+                        <div class="paper-authors" onclick="event.stopPropagation();">
+                          <a href="https://xiaofeixie.bitbucket.io/">Xiaofei Xie</a>,
+                          <a href="#">Tianlin Li</a>,
+                          <a href="https://scholar.google.com/citations?hl=en&user=GAe_mJUAAAAJ"><strong>Jian Wang</strong></a>,
+                          <a href="https://www.malei.org/">Lei Ma</a>,
+                          <a href="#">Qing Guo</a>,
+                          <a href="https://xujuefei.com/">Felix Juefei-Xu</a>,
+                          <a href="#">Yang Liu</a>
+                        </div>
+                        <div class="venue-row">
+                          <div class="paper-venue">
+                            ACM Transactions on Software Engineering and Methodology (TOSEM), vol. 31, no. 3, article 47, April 2022
+                          </div>
+                          <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="paper-keywords">
+                          <span class="keyword-tag">Test Coverage</span>
+                          <span class="keyword-tag">DNN Testing</span>
+                          <span class="keyword-tag">Decision Graph</span>
+                        </div>
+                        <div class="paper-short-desc">
+                          NPC models a DNN's internal decision logic as a "decision graph," analogous to a control flow graph in traditional software, and defines new path coverage criteria to evaluate test adequacy. Higher neuron path coverage correlates with error exposure (natural and adversarial) and with output impartiality.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="paper-thumbnail">
+                      <img src="images/npc.png"
+                          alt="Neuron Path Coverage thumbnail"
+                          onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'400\'%3E%3Crect fill=\'%23ddd\' width=\'800\' height=\'400\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\' font-size=\'24\'%3ENPC%3C/text%3E%3C/svg%3E'" />
+                    </div>
+
+                    <div class="paper-details">
+                      <div id="abstract-8" class="detail-section">
+                        <h3>Abstract</h3>
+                        <div class="abstract-text">
+                          This article introduces Neuron Path Coverage (NPC), a set of interpretable test coverage criteria for deep neural networks (DNNs). Analogous to traditional program analysis, the approach first constructs a decision graph from a DNN by interpreting neuron behaviors; each path in this graph corresponds to a particular decision logic of the network. From this graph, two path coverage criteria are defined to measure how thoroughly a test suite exercises the network's decision behaviors. Large-scale experiments demonstrate that (1) these decision paths effectively capture how DNNs make predictions, and (2) higher NPC correlates with both the ability to surface natural and adversarial errors and the impartiality of the model's outputs.
+                        </div>
+                      </div>
+
+                      <div id="cite-8" class="detail-section">
+                        <h3>Citation</h3>
+                        <div class="citation-wrapper">
+                          <button class="copy-btn" data-copy-target="cite-8-text" onclick="copyCitation(event, this)">📋 Copy</button>
+                          <div id="cite-8-text" class="citation-block">
+@article{xie2022npc,
+  title={Npc: N euron p ath c overage via characterizing decision logic of deep neural networks},
+  author={Xie, Xiaofei and Li, Tianlin and Wang, Jian and Ma, Lei and Guo, Qing and Juefei-Xu, Felix and Liu, Yang},
+  journal={ACM Transactions on Software Engineering and Methodology (TOSEM)},
+  volume={31},
+  number={3},
+  pages={1--27},
+  year={2022},
+  publisher={ACM New York, NY}
+}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div id="links-8" class="detail-section">
+                        <h3>Resources</h3>
+                        <div class="paper-links">
+                          <a href="https://dl.acm.org/doi/10.1145/3490489" target="_blank">📄 Paper</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <!-- Paper 8: ICML -->
+                  <div class="paper-container">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                      <div class="paper-info">
+                        <div class="paper-title">Automatic RNN Repair via Model-based Analysis</div>
+                        <div class="paper-authors" onclick="event.stopPropagation();">
+                          <a href="https://xiaofeixie.bitbucket.io/">Xiaofei Xie</a>,
+                          <a href="#">Wenbo Guo</a>,
+                          <a href="https://www.malei.org/">Lei Ma</a>,
+                          <a href="#">Wei Le</a>,
+                          <a href="https://scholar.google.com/citations?hl=en&user=GAe_mJUAAAAJ"><strong>Jian Wang</strong></a>,
+                          <a href="#">Linjun Zhou</a>,
+                          <a href="#">Yang Liu</a>,
+                          <a href="#">Xinyu Xing</a>
+                        </div>
+                        <div class="venue-row">
+                          <div class="paper-venue">
+                            International Conference on Machine Learning (ICML), 2021
+                          </div>
+                          <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="paper-keywords">
+                          <span class="keyword-tag">RNN Repair</span>
+                          <span class="keyword-tag">Model-based Analysis</span>
+                          <span class="keyword-tag">Automaton</span>
+                        </div>
+                        <div class="paper-short-desc">
+                          A lightweight model-based influence analysis approach to understand and repair incorrect behaviors in RNNs using automaton-based feature extraction.
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="paper-thumbnail">
+                      <img src="images/ICML2021_repair_v2.png" alt="ICML 2021 paper thumbnail" />
+                    </div>
+                    
+                    <div class="paper-details">
+                      <div id="abstract-9" class="detail-section">
+                        <h3>Abstract</h3>
+                        <div class="abstract-text">
+                          We propose a lightweight model-based influence analysis to help understand and repair incorrect behaviors of an RNN. Specifically, we build an automaton to enable high-quality feature extraction and to characterize the stateful and statistical behaviors of an RNN over all training data.
+                        </div>
+                      </div>
+                      
+                      <div id="cite-9" class="detail-section">
+                        <h3>Citation</h3>
+                        <div class="citation-wrapper">
+                          <button class="copy-btn" data-copy-target="cite-9-text" onclick="copyCitation(event, this)">📋 Copy</button>
+                          <div id="cite-9-text" class="citation-block">
+@inproceedings{xie2021automatic,
+  title={Automatic RNN Repair via Model-based Analysis},
+  author={Xie, Xiaofei and Guo, Wenbo and Ma, Lei and Le, Wei and Wang, Jian and Zhou, Linjun and Liu, Yang and Xing, Xinyu},
+  booktitle={International Conference on Machine Learning},
+  year={2021}
+}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div id="links-9" class="detail-section">
+                        <h3>Resources</h3>
+                        <div class="paper-links">
+                          <a href="http://proceedings.mlr.press/v139/xie21b.html" target="_blank">📄 Paper</a>
+                          <a href="http://proceedings.mlr.press/v139/xie21b/xie21b.pdf" target="_blank">📥 PDF</a>
+                          <a href="https://icml.cc/Conferences/2021/Schedule?showEvent=8766" target="_blank">🎯 Poster</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Paper 9: NeurIPS -->
+                  <div class="paper-container">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                      <div class="paper-info">
+                        <div class="paper-title">Watch out! Motion is Blurring the Vision of Your Deep Neural Networks</div>
+                        <div class="paper-authors" onclick="event.stopPropagation();">
+                          <a href="#">Qing Guo</a>,
+                          <a href="https://xujuefei.com/">Felix Juefei-Xu</a>,
+                          <a href="https://xiaofeixie.bitbucket.io/">Xiaofei Xie</a>,
+                          <a href="https://www.malei.org/">Lei Ma</a>,
+                          <a href="https://scholar.google.com/citations?hl=en&user=GAe_mJUAAAAJ"><strong>Jian Wang</strong></a>,
+                          <a href="#">Bing Yu</a>,
+                          <a href="#">Wei Feng</a>,
+                          <a href="#">Yang Liu</a>
+                        </div>
+                        <div class="venue-row">
+                          <div class="paper-venue">
+                            Advances in Neural Information Processing Systems (NeurIPS), 2020
+                          </div>
+                          <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="paper-keywords">
+                          <span class="keyword-tag">Adversarial Attack</span>
+                          <span class="keyword-tag">Motion Blur</span>
+                          <span class="keyword-tag">DNN Robustness</span>
+                        </div>
+                        <div class="paper-short-desc">
+                          Introducing a motion-based adversarial blur attack (ABBA) that generates visually natural motion-blurred adversarial examples to fool DNNs.
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="paper-thumbnail">
+                      <img src="images/abba_logo.png" alt="NeurIPS 2020 paper thumbnail" />
+                    </div>
+                    
+                    <div class="paper-details">
+                      <div id="abstract-10" class="detail-section">
+                        <h3>Abstract</h3>
+                        <div class="abstract-text">
+                          We introduce a motion-based adversarial blur attack (ABBA) that can generate visually natural motion-blurred adversarial examples. Unlike traditional adversarial attacks that add imperceptible noise, our method exploits the natural motion blur phenomenon to create adversarial perturbations that are more realistic and harder to detect.
+                        </div>
+                      </div>
+                      
+                      <div id="cite-10" class="detail-section">
+                        <h3>Citation</h3>
+                        <div class="citation-wrapper">
+                          <button class="copy-btn" data-copy-target="cite-10-text" onclick="copyCitation(event, this)">📋 Copy</button>
+                          <div id="cite-10-text" class="citation-block">
+@inproceedings{guo2020watch,
+  title={Watch out! Motion is Blurring the Vision of Your Deep Neural Networks},
+  author={Guo, Qing and Juefei-Xu, Felix and Xie, Xiaofei and Ma, Lei and Wang, Jian and Yu, Bing and Feng, Wei and Liu, Yang},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2020}
+}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div id="links-10" class="detail-section">
+                        <h3>Resources</h3>
+                        <div class="paper-links">
+                          <a href="data/felix_neurips20_abba.pdf" target="_blank">📄 Paper</a>
+                          <a href="http://arxiv.org/abs/2002.03500" target="_blank">📚 arXiv</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Paper 10: IJCAI -->
+                  <div class="paper-container">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                      <div class="paper-info">
+                        <div class="paper-title">FakeSpotter: A Simple yet Robust Baseline for Spotting AI-Synthesized Fake Faces</div>
+                        <div class="paper-authors" onclick="event.stopPropagation();">
+                          <a href="https://wangrun.github.io/">Run Wang</a>,
+                          <a href="https://xujuefei.com/">Felix Juefei-Xu</a>,
+                          <a href="https://www.malei.org/">Lei Ma</a>,
+                          <a href="https://xiaofeixie.bitbucket.io/">Xiaofei Xie</a>,
+                          <a href="#">Yihao Huang</a>,
+                          <a href="https://scholar.google.com/citations?hl=en&user=GAe_mJUAAAAJ"><strong>Jian Wang</strong></a>,
+                          <a href="#">Yang Liu</a>
+                        </div>
+                        <div class="venue-row">
+                          <div class="paper-venue">
+                            International Joint Conference on Artificial Intelligence (IJCAI), 2020
+                          </div>
+                          <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="paper-keywords">
+                          <span class="keyword-tag">Deepfake Detection</span>
+                          <span class="keyword-tag">Face Synthesis</span>
+                          <span class="keyword-tag">Neuron Analysis</span>
+                        </div>
+                        <div class="paper-short-desc">
+                          Detecting AI-synthesized fake faces by monitoring neuron behavior and analyzing layer-by-layer activation patterns to capture subtle features.
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div class="paper-thumbnail">
+                      <img src="images/fakespotter_logo.png" alt="IJCAI 2020 paper thumbnail" />
+                    </div>
+                    
+                    <div class="paper-details">
+                      <div id="abstract-11" class="detail-section">
+                        <h3>Abstract</h3>
+                        <div class="abstract-text">
+                          Monitoring neuron behavior can help detect AI-synthesized fake faces, since layer-by-layer activation patterns may capture subtle features important for the detector. Our approach, FakeSpotter, provides a simple yet robust baseline for detecting deepfakes by analyzing the internal representations of neural networks.
+                        </div>
+                      </div>
+                      
+                      <div id="cite-11" class="detail-section">
+                        <h3>Citation</h3>
+                        <div class="citation-wrapper">
+                          <button class="copy-btn" data-copy-target="cite-11-text" onclick="copyCitation(event, this)">📋 Copy</button>
+                          <div id="cite-11-text" class="citation-block">
+@inproceedings{wang2020fakespotter,
+  title={FakeSpotter: A Simple yet Robust Baseline for Spotting AI-Synthesized Fake Faces},
+  author={Wang, Run and Juefei-Xu, Felix and Ma, Lei and Xie, Xiaofei and Huang, Yihao and Wang, Jian and Liu, Yang},
+  booktitle={International Joint Conference on Artificial Intelligence},
+  year={2020}
+}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div id="links-11" class="detail-section">
+                        <h3>Resources</h3>
+                        <div class="paper-links">
+                          <a href="data/felix_ijcai20_fakespotter.pdf" target="_blank">📄 Paper</a>
+                          <a href="http://arxiv.org/abs/1909.06122" target="_blank">📚 arXiv</a>
+                          <a href="https://syncedreview.com/2019/09/23/ai-vs-ai-fakespotter-studies-neurons-to-bust-deepfakes/" target="_blank">📰 Media Coverage</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Engineering -->
+          <table style="width:100%;border:0;border-spacing:0;border-collapse:separate;margin:0 auto;">
+            <tbody>
+              <tr>
+                <td style="padding:20px;">
+                  <h2>Engineering</h2>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+<!-- ① SMU -->
+<div class="exp-card">
+  <div class="exp-header">
+    <a class="exp-title" href="https://xiaofeixie.bitbucket.io/publications/" target="_blank">Singapore Management University (SMU)</a>
+    <span class="exp-period">Aug 2023 – Present</span>
+  </div>
+  <div class="exp-role-loc">Research Assistant &mdash; Code Intelligence &amp; Code LLM Security &mdash; Singapore</div>
+  <ul class="exp-highlights">
+    <li>Built <strong>Defects4C</strong>: curated a C/C++ bug benchmark from 38M+ commits (500 top GitHub repos + 14.5K CVE-linked commits), down to 350 expert-validated bugs via 3 rounds of human review. <em>(ASE 2025)</em></li>
+	  <li>Evaluated 24 state-of-the-art LLMs on single-round and conversation-based repair settings; analysed parallel vs. sequential scaling strategies under compute constraints.</li>
+    <li>Designed a semantic-enhancement framework incorporating dynamic execution traces into training; conducted SFT and PEFT experiments on code generation and repair. <em>(EMNLP 2025)</em></li>
+  </ul>
+  <div class="exp-keywords">
+    <span class="keyword-tag">LLM Security</span>
+    <span class="keyword-tag">Code Intelligence</span>
+    <span class="keyword-tag">SFT / PEFT</span>
+    <span class="keyword-tag">Automated Program Repair</span>
+    <span class="keyword-tag">C/C++ Benchmarking</span>
+  </div>
+</div>
+
+<!-- ② NTU -->
+<div class="exp-card">
+  <div class="exp-header">
+    <a class="exp-title" href="https://liyiweb.com/teaching/" target="_blank">Nanyang Technological University (NTU)</a>
+    <span class="exp-period">Dec 2019 – Aug 2023</span>
+  </div>
+  <div class="exp-role-loc">Research Assistant &mdash; Deep Learning &amp; LLM Security &mdash; Singapore</div>
+  <ul class="exp-highlights">
+	  <li>First comprehensive study evaluating 13 AIGC detectors on 2M+ samples; developed fine-tuning-based detection with significant accuracy gains. <em>(ASE 2024)</em></li>
+    <li>Developed <strong>neural-symbolic</strong> methods for DL model testing: neuron path coverage analysis and neuron activation-level fairness repair; enhanced adversarial robustness via targeted model-internal interventions. <em>(ICML 2021 &middot; TOSEM 2021 &amp; 2022 &middot; NeurIPS 2020)</em></li>
+    <li>Built <strong>RATCHET</strong> — a Retrieval-Augmented Transformer for Automated Program Repair in C/C++, integrating execution trace context and bug-patch data from 13 curated open-source projects.(ISSRE 2024)</li>
+    <li>Core team member in an international deepfake detection challenge — 3rd place on a real-world benchmark. <a href="https://www.channelnewsasia.com/singapore/ai-singapore-competition-winners-fake-media-deepfake-bytedance-2655836">link</a>
+      <span class="highlight-badge">&#127942; 100,000 SGD Prize &middot; 2022</span>
+    </li>
+  </ul>
+  <div class="exp-keywords">
+    <span class="keyword-tag">AIGC Detection</span>
+    <span class="keyword-tag">DL Testing &amp; Security</span>
+    <span class="keyword-tag">Adversarial Robustness</span>
+    <span class="keyword-tag">Neural-Symbolic Methods</span>
+    <span class="keyword-tag">Deepfake Detection</span>
+    <span class="keyword-tag">Retrieval-Augmented APR</span>
+  </div>
+</div>
+
+<!-- ③ Xiaomi -->
+<div class="exp-card">
+  <div class="exp-header">
+    <a class="exp-title" href="https://www.hkex.com.hk/Market-Data/Securities-Prices/Equities/Equities-Quote?sym=1810&sc_lang=en" target="_blank">Xiaomi Group &mdash; AI Lab</a>
+    <span class="exp-period">2017 – 2019</span>
+  </div>
+  <div class="exp-role-loc">AI Researcher &mdash; Portrait Mode / Background Segmentation &mdash; Beijing, China</div>
+  <ul class="exp-highlights">
+    <li>Designed and trained deep learning models (GCN / GAN / CNN) for real-time portrait background segmentation and person detection — shipped as a core camera feature on Xiaomi devices.</li>
+    <li>Collaborated with international product teams (incl. India) to collect edge-case data and improve accuracy across diverse skin tones and lighting conditions.</li>
+    <li>
+      Full production pipeline: trained on GPU cluster (CUDA / PyTorch) &rarr; quantised &amp; pruned &rarr; converted to on-device IR &rarr; deployed and ran inference on mobile NPU (Qualcomm Hexagon DSP / HiSilicon Kirin NPU).
+      <div class="exp-pipeline">
+        <span class="pbox">Train &nbsp;GPU&nbsp;(CUDA)</span>
+        <span class="parrow">&rarr;</span>
+        <span class="pbox">Quantise &amp; Prune</span>
+        <span class="parrow">&rarr;</span>
+        <span class="pbox">Convert (ONNX&nbsp;/&nbsp;IR)</span>
+        <span class="parrow">&rarr;</span>
+        <span class="pbox">Deploy &nbsp;Mobile NPU</span>
+        <span class="parrow">&rarr;</span>
+        <span class="pbox">On-device Inference</span>
+      </div>
+    </li>
+    <li>Built pre/post-launch failure-sample pipelines for continuous retraining; solved complex natural scene blur with a novel <em>cascaded multi-mask</em> approach (layered masks vs. single binary mask).</li>
+  </ul>
+  <div class="exp-note">All relevant IP rights have lapsed (post-2021).</div>
+  <div class="exp-keywords">
+    <span class="keyword-tag">GCN / GAN / CNN</span>
+    <span class="keyword-tag">Image Segmentation</span>
+    <span class="keyword-tag">CUDA &rarr; NPU Deployment</span>
+    <span class="keyword-tag">Model Quantisation</span>
+    <span class="keyword-tag">On-device Inference</span>
+    <span class="keyword-tag">Computer Vision</span>
+  </div>
+</div>
+
+<!-- ④ 58 Inc -->
+<div class="exp-card">
+  <div class="exp-header">
+    <a class="exp-title" href="https://www.sec.gov/Archives/edgar/data/1525494/000104746913009364/a2216693zf-1.htm" target="_blank">58 Inc. (58.com Group)</a>
+    <span class="exp-period">2011 – 2017</span>
+  </div>
+  <div class="exp-role-loc">Backend Engineer &rarr; Team Lead &mdash; Middleware &mdash; Beijing, China</div>
+  <ul class="exp-highlights">
+    <li><strong>Led a 7-person engineering team</strong> in the mobile web-page business group, supporting a product with <strong>15M+ monthly active users</strong> — one of the company's primary revenue streams.</li>
+    <li>Core developer of the <strong>middleware layer</strong> enabling API calls from mobile apps; owned service reliability, latency, and scalability at production scale.</li>
+    <li>Managed cross-team communication, task assignment, code quality standards, and on-time delivery across multiple business units.</li>
+  </ul>
+  <div class="exp-keywords">
+    <span class="keyword-tag">Backend Engineering</span>
+    <span class="keyword-tag">Middleware / API</span>
+    <span class="keyword-tag">Team Lead (7-person)</span>
+    <span class="keyword-tag">15M+ MAU</span>
+    <span class="keyword-tag">Mobile Web</span>
+  </div>
+</div>
+
+<!-- ⑤ Baidu (intern) -->
+<div class="exp-card">
+  <div class="exp-header">
+    <a class="exp-title" href="https://www.sec.gov/Archives/edgar/data/1329099/000119312505159073/d424b4.htm" target="_blank">Baidu, Inc.</a>
+    <span class="exp-period">2011 &nbsp;(Internship)</span>
+  </div>
+  <div class="exp-role-loc">Data Engineering Intern &mdash; Beijing, China</div>
+  <ul class="exp-highlights">
+    <li>Contributed to large-scale data pipelines at one of China's largest tech companies; hands-on production data engineering experience.</li>
+  </ul>
+  <div class="exp-keywords">
+    <span class="keyword-tag">Data Engineering</span>
+    <span class="keyword-tag">Internship</span>
+  </div>
+</div>
+
+          <!-- Footer -->
+          <table style="width:100%;border:0;border-spacing:0;border-collapse:separate;margin:0 auto;">
+            <tbody>
+              <tr>
+                <td style="padding:0;">
+                  <br />
+                  <p style="text-align:right;font-size:small;">
+                    I forked this source code from
+                    <a href="https://github.com/jonbarron/website">jonbarron</a> and
+                    <a href="http://xujuefei.com/">xujuefei</a>.
+                    Also consider
+                    <a href="https://leonidk.com/">Leonid Keselman</a>'s
+                    <a href="https://github.com/leonidk/new_website">Jekyll fork</a> of this page.
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding:0;">
+                  <br />
+                  <p style="text-align:right;font-size:small;">
+                    ICP-1900352-1 <a href="https://beian.miit.gov.cn">link</a>
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Optional counter (kept but commented script) -->
+          <table width="100" height="100" align="center" border="0" cellspacing="0" cellpadding="2" style="margin:0 auto;">
+            <tbody>
+              <tr>
+                <td align="center">
+                  <p style="text-align:center;width:100%;">
+                    <!-- <script type="text/javascript" id="clstr_globe" src="//clustrmaps.com/globe.js?d=wSB3PmmkU6UW_4U3Vv0hggqAXeExp_GJZ-4FYY2piR8"></script> -->
+                  </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    function togglePaper(header) {
+      const container = header.closest('.paper-container');
+      const allContainers = document.querySelectorAll('.paper-container');
+      
+      // Close all other papers
+      allContainers.forEach(c => {
+        if (c !== container) {
+          c.classList.remove('expanded');
+        }
+      });
+      
+      // Toggle current paper
+      container.classList.toggle('expanded');
+    }
+
+    function copyCitation(e, btnEl) {
+      e.stopPropagation();
+      const targetId = btnEl.getAttribute('data-copy-target');
+      if (!targetId) return;
+      const block = document.getElementById(targetId);
+      if (!block) return;
+      
+      const text = block.innerText;
+
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          btnEl.classList.add('copied');
+          const original = btnEl.innerHTML;
+          btnEl.innerHTML = "✔ Copied";
+          setTimeout(() => {
+            btnEl.classList.remove('copied');
+            btnEl.innerHTML = original;
+          }, 2000);
+        })
+        .catch(() => {
+          const tempTextArea = document.createElement('textarea');
+          tempTextArea.value = text;
+          document.body.appendChild(tempTextArea);
+          tempTextArea.select();
+          try {
+            document.execCommand('copy');
+            btnEl.classList.add('copied');
+            const original = btnEl.innerHTML;
+            btnEl.innerHTML = "✔ Copied";
+            setTimeout(() => {
+              btnEl.classList.remove('copied');
+              btnEl.innerHTML = original;
+            }, 2000);
+          } catch (err) {
+            console.warn('Copy failed', err);
+          }
+          document.body.removeChild(tempTextArea);
+        });
+    }
+  </script>
+</body>
+</html>
+
+

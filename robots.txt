@@ -1,0 +1,6 @@
+
+User-agent: *
+Disallow:
+
+Sitemap: https://www.wj2ai.com/sitemap.xml
+
