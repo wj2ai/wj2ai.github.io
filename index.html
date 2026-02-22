@@ -230,6 +230,120 @@
       font-weight: 500;
       border: 1px solid #90caf9;
     }
+  .exp-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #fafafa;
+    transition: box-shadow 0.3s ease;
+  }
+  .exp-card:hover {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  .exp-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+  .exp-header .exp-title {
+    font-size: 1.05em;
+    font-weight: bold;
+    color: #0066cc;
+  }
+  .exp-header .exp-title:hover { text-decoration: underline; }
+  .exp-period {
+    font-size: 0.88em;
+    color: #888;
+    font-style: italic;
+    white-space: nowrap;
+  }
+  .exp-role-loc {
+    font-size: 0.9em;
+    color: #555;
+    margin-bottom: 10px;
+  }
+  .exp-highlights {
+    list-style: none;
+    margin: 0 0 10px 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .exp-highlights li {
+    font-size: 0.92em;
+    line-height: 1.55;
+    color: #444;
+    padding-left: 1.1em;
+    position: relative;
+  }
+  .exp-highlights li::before {
+    content: '\25B8';
+    position: absolute;
+    left: 0;
+    color: #bbb;
+    font-size: 0.8em;
+    top: 3px;
+  }
+  .exp-keywords {
+    display: flex;
+    gap: 7px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .exp-keywords .keyword-tag {
+    display: inline-block;
+    background: #e3f2fd;
+    color: #1565c0;
+    padding: 2px 9px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 500;
+    border: 1px solid #90caf9;
+    font-family: Arial, sans-serif;
+  }
+  .highlight-badge {
+    display: inline-block;
+    background: #ffd700;
+    color: #333;
+    padding: 1px 7px;
+    border-radius: 3px;
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-left: 6px;
+    font-family: Arial, sans-serif;
+  }
+  .exp-pipeline {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    font-size: 0.82em;
+    font-family: 'Courier New', monospace;
+    margin-top: 7px;
+  }
+  .exp-pipeline .pbox {
+    background: #e3f2fd;
+    border: 1px solid #90caf9;
+    border-radius: 4px;
+    padding: 2px 9px;
+    color: #1565c0;
+    white-space: nowrap;
+  }
+  .exp-pipeline .parrow { color: #aaa; }
+  .exp-note {
+    margin-top: 8px;
+    padding: 8px 12px;
+    background: #fff;
+    border-left: 3px solid #0066cc;
+    border-radius: 4px;
+    font-size: 0.88em;
+    color: #555;
+  }
   </style>
 </head>
 
@@ -247,7 +361,7 @@
                     <h1 style="margin:0;">Jian Wang (王剑)</h1>
                   </p>
                   <p>
-                    Jian Wang is a Ph.D. candidate (expected Jan 2026, now at job market ) at the College of Computing and Data Science (CCDS), Nanyang Technological University (NTU), Singapore, advised by
+                    Jian Wang is a Ph.D. candidate (expected Mar 2026, now at job market ) at the College of Computing and Data Science (CCDS), Nanyang Technological University (NTU), Singapore, advised by
                     <a href="https://personal.ntu.edu.sg/yi_li/">Prof. Li Yi</a>. His work focuses on code LLM security and intelligence.
                   </p>
 
@@ -287,7 +401,7 @@
                     He expects to receive his Ph.D. from NTU in 2026 and holds a B.A. in Software Engineering from Tianjin University (2011).
                   </p>
                   <p>
-		  Jian's research interests lie at the intersection of Software Engineering, Large Language Models, and Trustworthy AI Systems. Using deep learning and retrieval-augmented methods as the core driving engine, I develop automated techniques for program repair and AI-generated code detection, applying them toward enhancing software reliability—from identifying untrusted AI-generated code to automatically fixing bugs in safety-critical systems. I am particularly passionate about semantically-grounded program understanding, moving beyond pattern matching to genuine reasoning about code behavior and runtime execution.
+		  Jian's research interests lie at the intersection of Software Engineering, Large Language Models, and Trustworthy AI Systems. Using deep learning and retrieval-augmented methods as the core driving engine, he develops automated techniques for program repair and AI-generated code detection, applying them toward enhancing software reliability—from identifying untrusted AI-generated code to automatically fixing bugs in safety-critical systems. He is particularly passionate about semantically grounded program understanding LLM, moving beyond pattern matching to genuine reasoning about code behavior and runtime execution.
                   </p>
                 </td>
               </tr>
@@ -364,14 +478,87 @@
                       <div id="links-1" class="detail-section">
                         <h3>Resources</h3>
                         <div class="paper-links">
-                          <a href="https://arxiv.org/abs/2501.xxxxx" target="_blank">📄 Paper</a>
-                          <a href="https://github.com/username/defects4c" target="_blank">💻 Project</a>
-                          <a href="https://arxiv.org/abs/2501.xxxxx" target="_blank">📚 arXiv</a>
+                          <a href="https://arxiv.org/abs/2510.11059" target="_blank">📄 Paper</a>
+                          <a href="https://github.com/defects4c/defects4c" target="_blank">💻 Github</a>
                         </div>
                       </div>
                     </div>
                   </div>
 
+
+
+
+                  <!-- Paper 4: Do Code Semantics Help? -->
+                  <div class="paper-container">
+                    <div class="paper-header" onclick="togglePaper(this)">
+                      <div class="paper-info">
+                        <div class="paper-title">
+                          Do Code Semantics Help? A Comprehensive Study on Execution Trace-Based Information for Code Large Language Models
+                        </div>
+                        <div class="paper-authors" onclick="event.stopPropagation();">
+                          <a href="https://scholar.google.com/citations?hl=en&user=GAe_mJUAAAAJ"><strong>Jian Wang</strong></a>,
+                          <a href="https://xiaofeixie.bitbucket.io/">Xiaofei Xie</a>,
+                          <a href="https://wellido.github.io/">Qiang Hu</a>,
+                          <a href="https://shangqing-liu.github.io/">Shangqing Liu</a>,
+                          <a href="https://personal.ntu.edu.sg/yi_li/">Yi Li</a>
+                        </div>
+                        <div class="venue-row">
+                          <div class="paper-venue">
+                            In Findings of the Association for Computational Linguistics: EMNLP, 2025
+                          </div>
+                          <span class="expand-icon">▼</span>
+                        </div>
+                        <div class="paper-keywords">
+                          <span class="keyword-tag">Execution Traces</span>
+                          <span class="keyword-tag">Code Semantics</span>
+                          <span class="keyword-tag">LLM Reasoning</span>
+                        </div>
+                        <div class="paper-short-desc">
+                          This paper investigates whether enriching prompts or training signals with semantic/runtime information (like execution traces) actually improves Code LLM reasoning. The study proposes a generic framework for injecting such semantics into both supervised fine-tuning and inference-time prompting, and finds that — contrary to prior claims — the gains are often limited.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="paper-thumbnail">
+                      <img src="images/emnlp.png"
+                          alt="Code semantics / execution traces thumbnail"
+                          onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'400\'%3E%3Crect fill=\'%23ddd\' width=\'800\' height=\'400\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\' font-size=\'24\'%3ETrace Study%3C/text%3E%3C/svg%3E'" />
+                    </div>
+
+                    <div class="paper-details">
+                      <div id="abstract-4" class="detail-section">
+                        <h3>Abstract</h3>
+                        <div class="abstract-text">
+                          Code Large Language Models (Code LLMs) have shown impressive capabilities but still struggle to deeply reason about runtime behavior and actual program functionality. We identify two key challenges: (1) weak reasoning over program execution, and (2) inconsistent ways of representing semantic signals like execution traces, which hurts generalization. We propose a general framework for integrating semantic, trace-based information into prompts for code tasks, and we conduct a broad empirical study examining how such information affects both supervised fine-tuning (SFT) and test-time inference (post-training prompting). Surprisingly, our results challenge prior optimism: execution-trace semantic signals offer only limited benefits for SFT and test-time scaling of Code LLMs, suggesting that naive "just add traces" strategies are not enough to close LLM reasoning gaps.
+                        </div>
+                      </div>
+
+                      <div id="cite-4" class="detail-section">
+                        <h3>Citation</h3>
+                        <div class="citation-wrapper">
+                          <button class="copy-btn" data-copy-target="cite-4-text" onclick="copyCitation(event, this)">📋 Copy</button>
+                          <div id="cite-4-text" class="citation-block">
+@inproceedings{Wang2025DCS,
+  author = {Wang, Jian and Xie, Xiaofei and Hu, Qiang and Liu, Shangqing and Li, Yi},
+  booktitle = {Findings of the Association for Computational Linguistics: EMNLP},
+  month = nov,
+  title = {Do Code Semantics Help? A Comprehensive Study on Execution Trace-Based Information for Code Large Language Models},
+  year = {2025}
+}
+                          </div>
+                        </div>
+                      </div>
+
+                      <div id="links-4" class="detail-section">
+                        <h3>Resources</h3>
+                        <div class="paper-links">
+                          <a href="https://aclanthology.org/2025.findings-emnlp.548/" target="_blank">📄 Paper</a>
+                          <a href="https://arxiv.org/abs/2509.11686" target="_blank">📚 arXiv</a>
+                          <a href="https://github.com/jianwang-ntu/tracewise_probing/blob/main/emnlp_trace_poster.pdf" target="_blank">📚 poster</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
 
                   <!-- Paper 2: RATCHET -->
                   <div class="paper-container">
@@ -511,8 +698,9 @@
                       <div id="links-3" class="detail-section">
                         <h3>Resources</h3>
                         <div class="paper-links">
-                          <a href="#" target="_blank">📄 Paper</a>
-                          <a href="#" target="_blank">📚 arXiv</a>
+                          <a href="https://dl.acm.org/doi/10.1145/3691620.3695468" target="_blank">📄 Paper</a>
+                          <a href="https://liyiweb.com/files/Wang2024AES.slides.pdf" target="_blank">📚 slides</a>
+                          <a href="https://sites.google.com/view/nlccd" target="_blank">📚 website</a>
                         </div>
                       </div>
                     </div>
@@ -520,76 +708,6 @@
 
 
 
-                  <!-- Paper 4: Do Code Semantics Help? -->
-                  <div class="paper-container">
-                    <div class="paper-header" onclick="togglePaper(this)">
-                      <div class="paper-info">
-                        <div class="paper-title">
-                          Do Code Semantics Help? A Comprehensive Study on Execution Trace-Based Information for Code Large Language Models
-                        </div>
-                        <div class="paper-authors" onclick="event.stopPropagation();">
-                          <a href="https://scholar.google.com/citations?hl=en&user=GAe_mJUAAAAJ"><strong>Jian Wang</strong></a>,
-                          <a href="https://xiaofeixie.bitbucket.io/">Xiaofei Xie</a>,
-                          <a href="https://wellido.github.io/">Qiang Hu</a>,
-                          <a href="https://shangqing-liu.github.io/">Shangqing Liu</a>,
-                          <a href="https://personal.ntu.edu.sg/yi_li/">Yi Li</a>
-                        </div>
-                        <div class="venue-row">
-                          <div class="paper-venue">
-                            In Findings of the Association for Computational Linguistics: EMNLP, 2025
-                          </div>
-                          <span class="expand-icon">▼</span>
-                        </div>
-                        <div class="paper-keywords">
-                          <span class="keyword-tag">Execution Traces</span>
-                          <span class="keyword-tag">Code Semantics</span>
-                          <span class="keyword-tag">LLM Reasoning</span>
-                        </div>
-                        <div class="paper-short-desc">
-                          This paper investigates whether enriching prompts or training signals with semantic/runtime information (like execution traces) actually improves Code LLM reasoning. The study proposes a generic framework for injecting such semantics into both supervised fine-tuning and inference-time prompting, and finds that — contrary to prior claims — the gains are often limited.
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="paper-thumbnail">
-                      <img src="images/emnlp.png"
-                          alt="Code semantics / execution traces thumbnail"
-                          onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'800\' height=\'400\'%3E%3Crect fill=\'%23ddd\' width=\'800\' height=\'400\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' dy=\'.3em\' fill=\'%23999\' font-size=\'24\'%3ETrace Study%3C/text%3E%3C/svg%3E'" />
-                    </div>
-
-                    <div class="paper-details">
-                      <div id="abstract-4" class="detail-section">
-                        <h3>Abstract</h3>
-                        <div class="abstract-text">
-                          Code Large Language Models (Code LLMs) have shown impressive capabilities but still struggle to deeply reason about runtime behavior and actual program functionality. We identify two key challenges: (1) weak reasoning over program execution, and (2) inconsistent ways of representing semantic signals like execution traces, which hurts generalization. We propose a general framework for integrating semantic, trace-based information into prompts for code tasks, and we conduct a broad empirical study examining how such information affects both supervised fine-tuning (SFT) and test-time inference (post-training prompting). Surprisingly, our results challenge prior optimism: execution-trace semantic signals offer only limited benefits for SFT and test-time scaling of Code LLMs, suggesting that naive "just add traces" strategies are not enough to close LLM reasoning gaps.
-                        </div>
-                      </div>
-
-                      <div id="cite-4" class="detail-section">
-                        <h3>Citation</h3>
-                        <div class="citation-wrapper">
-                          <button class="copy-btn" data-copy-target="cite-4-text" onclick="copyCitation(event, this)">📋 Copy</button>
-                          <div id="cite-4-text" class="citation-block">
-@inproceedings{Wang2025DCS,
-  author = {Wang, Jian and Xie, Xiaofei and Hu, Qiang and Liu, Shangqing and Li, Yi},
-  booktitle = {Findings of the Association for Computational Linguistics: EMNLP},
-  month = nov,
-  title = {Do Code Semantics Help? A Comprehensive Study on Execution Trace-Based Information for Code Large Language Models},
-  year = {2025}
-}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div id="links-4" class="detail-section">
-                        <h3>Resources</h3>
-                        <div class="paper-links">
-                          <a href="#" target="_blank">📄 Paper</a>
-                          <a href="#" target="_blank">📚 arXiv</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
 
 
 
@@ -658,8 +776,7 @@
                       <div id="links-6" class="detail-section">
                         <h3>Resources</h3>
                         <div class="paper-links">
-                          <a href="#" target="_blank">📄 Paper</a>
-                          <a href="#" target="_blank">📚 arXiv</a>
+                          <a href="https://arxiv.org/abs/2404.09599" target="_blank">📚 arXiv</a>
                         </div>
                       </div>
                     </div>
@@ -736,8 +853,7 @@
                       <div id="links-7" class="detail-section">
                         <h3>Resources</h3>
                         <div class="paper-links">
-                          <a href="#" target="_blank">📄 Paper</a>
-                          <a href="#" target="_blank">📚 ACM DL</a>
+                          <a href="https://dl.acm.org/doi/10.1145/3617168" target="_blank">📄 Paper</a>
                         </div>
                       </div>
                     </div>
@@ -814,8 +930,7 @@
                       <div id="links-8" class="detail-section">
                         <h3>Resources</h3>
                         <div class="paper-links">
-                          <a href="#" target="_blank">📄 Paper</a>
-                          <a href="#" target="_blank">📚 ACM DL</a>
+                          <a href="https://dl.acm.org/doi/10.1145/3490489" target="_blank">📄 Paper</a>
                         </div>
                       </div>
                     </div>
@@ -1047,28 +1162,126 @@
             </tbody>
           </table>
 
-          <ul>
-            <li>
-              <strong><a href="https://xiaofeixie.bitbucket.io/publications/">Singapore Management University(SMU)</a></strong> —
-              Research Assistant (code Intelligence and Code LLM security) (2023-Aug ~ )
-            </li>
-            <li>
-              <strong><a href="https://liyiweb.com/teaching/">Nanyang Technological University (NTU)</a></strong> —
-              Research Assistant (DL and LLM security), Singapore (2019-Dec ~ 2023-Aug )
-            </li>
-            <li>
-              <strong><a href="https://www.hkex.com.hk/Market-Data/Securities-Prices/Equities/Equities-Quote?sym=1810&sc_lang=en">Xiaomi Group</a></strong> —
-              Xiaomi AI Lab (trained portrait image DL generator), Beijing, China (2017—2019)
-            </li>
-            <li>
-              <strong><a href="https://www.sec.gov/Archives/edgar/data/1525494/000104746913009364/a2216693zf-1.htm">58 Inc.</a></strong> —
-              Backend Engineer (Middleware), 58 Group, Beijing, China (2011—2017)
-            </li>
-            <li>
-              <strong><a href="https://www.sec.gov/Archives/edgar/data/1329099/000119312505159073/d424b4.htm">Baidu, Inc.</a></strong> —
-              Data Engineer (Intern), Beijing, China (2011)
-            </li>
-          </ul>
+
+<!-- ① SMU -->
+<div class="exp-card">
+  <div class="exp-header">
+    <a class="exp-title" href="https://xiaofeixie.bitbucket.io/publications/" target="_blank">Singapore Management University (SMU)</a>
+    <span class="exp-period">Aug 2023 – Present</span>
+  </div>
+  <div class="exp-role-loc">Research Assistant &mdash; Code Intelligence &amp; Code LLM Security &mdash; Singapore</div>
+  <ul class="exp-highlights">
+    <li>Built <strong>Defects4C</strong>: curated a C/C++ bug benchmark from 38M+ commits (500 top GitHub repos + 14.5K CVE-linked commits), down to 350 expert-validated bugs via 3 rounds of human review. <em>(ASE 2025)</em></li>
+	  <li>Evaluated 24 state-of-the-art LLMs on single-round and conversation-based repair settings; analysed parallel vs. sequential scaling strategies under compute constraints.</li>
+    <li>Designed a semantic-enhancement framework incorporating dynamic execution traces into training; conducted SFT and PEFT experiments on code generation and repair. <em>(EMNLP 2025)</em></li>
+  </ul>
+  <div class="exp-keywords">
+    <span class="keyword-tag">LLM Security</span>
+    <span class="keyword-tag">Code Intelligence</span>
+    <span class="keyword-tag">SFT / PEFT</span>
+    <span class="keyword-tag">Automated Program Repair</span>
+    <span class="keyword-tag">C/C++ Benchmarking</span>
+  </div>
+</div>
+
+<!-- ② NTU -->
+<div class="exp-card">
+  <div class="exp-header">
+    <a class="exp-title" href="https://liyiweb.com/teaching/" target="_blank">Nanyang Technological University (NTU)</a>
+    <span class="exp-period">Dec 2019 – Aug 2023</span>
+  </div>
+  <div class="exp-role-loc">Research Assistant &mdash; Deep Learning &amp; LLM Security &mdash; Singapore</div>
+  <ul class="exp-highlights">
+	  <li>First comprehensive study evaluating 13 AIGC detectors on 2M+ samples; developed fine-tuning-based detection with significant accuracy gains. <em>(ASE 2024)</em></li>
+    <li>Developed <strong>neural-symbolic</strong> methods for DL model testing: neuron path coverage analysis and neuron activation-level fairness repair; enhanced adversarial robustness via targeted model-internal interventions. <em>(ICML 2021 &middot; TOSEM 2021 &amp; 2022 &middot; NeurIPS 2020)</em></li>
+    <li>Built <strong>RATCHET</strong> — a Retrieval-Augmented Transformer for Automated Program Repair in C/C++, integrating execution trace context and bug-patch data from 13 curated open-source projects.(ISSRE 2024)</li>
+    <li>Core team member in an international deepfake detection challenge — 3rd place on a real-world benchmark. <a href="https://www.channelnewsasia.com/singapore/ai-singapore-competition-winners-fake-media-deepfake-bytedance-2655836">link</a>
+      <span class="highlight-badge">&#127942; 100,000 SGD Prize &middot; 2022</span>
+    </li>
+  </ul>
+  <div class="exp-keywords">
+    <span class="keyword-tag">AIGC Detection</span>
+    <span class="keyword-tag">DL Testing &amp; Security</span>
+    <span class="keyword-tag">Adversarial Robustness</span>
+    <span class="keyword-tag">Neural-Symbolic Methods</span>
+    <span class="keyword-tag">Deepfake Detection</span>
+    <span class="keyword-tag">Retrieval-Augmented APR</span>
+  </div>
+</div>
+
+<!-- ③ Xiaomi -->
+<div class="exp-card">
+  <div class="exp-header">
+    <a class="exp-title" href="https://www.hkex.com.hk/Market-Data/Securities-Prices/Equities/Equities-Quote?sym=1810&sc_lang=en" target="_blank">Xiaomi Group &mdash; AI Lab</a>
+    <span class="exp-period">2017 – 2019</span>
+  </div>
+  <div class="exp-role-loc">AI Researcher &mdash; Portrait Mode / Background Segmentation &mdash; Beijing, China</div>
+  <ul class="exp-highlights">
+    <li>Designed and trained deep learning models (GCN / GAN / CNN) for real-time portrait background segmentation and person detection — shipped as a core camera feature on Xiaomi devices.</li>
+    <li>Collaborated with international product teams (incl. India) to collect edge-case data and improve accuracy across diverse skin tones and lighting conditions.</li>
+    <li>
+      Full production pipeline: trained on GPU cluster (CUDA / PyTorch) &rarr; quantised &amp; pruned &rarr; converted to on-device IR &rarr; deployed and ran inference on mobile NPU (Qualcomm Hexagon DSP / HiSilicon Kirin NPU).
+      <div class="exp-pipeline">
+        <span class="pbox">Train &nbsp;GPU&nbsp;(CUDA)</span>
+        <span class="parrow">&rarr;</span>
+        <span class="pbox">Quantise &amp; Prune</span>
+        <span class="parrow">&rarr;</span>
+        <span class="pbox">Convert (ONNX&nbsp;/&nbsp;IR)</span>
+        <span class="parrow">&rarr;</span>
+        <span class="pbox">Deploy &nbsp;Mobile NPU</span>
+        <span class="parrow">&rarr;</span>
+        <span class="pbox">On-device Inference</span>
+      </div>
+    </li>
+    <li>Built pre/post-launch failure-sample pipelines for continuous retraining; solved complex natural scene blur with a novel <em>cascaded multi-mask</em> approach (layered masks vs. single binary mask).</li>
+  </ul>
+  <div class="exp-note">All relevant IP rights have lapsed (post-2021).</div>
+  <div class="exp-keywords">
+    <span class="keyword-tag">GCN / GAN / CNN</span>
+    <span class="keyword-tag">Image Segmentation</span>
+    <span class="keyword-tag">CUDA &rarr; NPU Deployment</span>
+    <span class="keyword-tag">Model Quantisation</span>
+    <span class="keyword-tag">On-device Inference</span>
+    <span class="keyword-tag">Computer Vision</span>
+  </div>
+</div>
+
+<!-- ④ 58 Inc -->
+<div class="exp-card">
+  <div class="exp-header">
+    <a class="exp-title" href="https://www.sec.gov/Archives/edgar/data/1525494/000104746913009364/a2216693zf-1.htm" target="_blank">58 Inc. (58.com Group)</a>
+    <span class="exp-period">2011 – 2017</span>
+  </div>
+  <div class="exp-role-loc">Backend Engineer &rarr; Team Lead &mdash; Middleware &mdash; Beijing, China</div>
+  <ul class="exp-highlights">
+    <li><strong>Led a 7-person engineering team</strong> in the mobile web-page business group, supporting a product with <strong>15M+ monthly active users</strong> — one of the company's primary revenue streams.</li>
+    <li>Core developer of the <strong>middleware layer</strong> enabling API calls from mobile apps; owned service reliability, latency, and scalability at production scale.</li>
+    <li>Managed cross-team communication, task assignment, code quality standards, and on-time delivery across multiple business units.</li>
+  </ul>
+  <div class="exp-keywords">
+    <span class="keyword-tag">Backend Engineering</span>
+    <span class="keyword-tag">Middleware / API</span>
+    <span class="keyword-tag">Team Lead (7-person)</span>
+    <span class="keyword-tag">15M+ MAU</span>
+    <span class="keyword-tag">Mobile Web</span>
+  </div>
+</div>
+
+<!-- ⑤ Baidu (intern) -->
+<div class="exp-card">
+  <div class="exp-header">
+    <a class="exp-title" href="https://www.sec.gov/Archives/edgar/data/1329099/000119312505159073/d424b4.htm" target="_blank">Baidu, Inc.</a>
+    <span class="exp-period">2011 &nbsp;(Internship)</span>
+  </div>
+  <div class="exp-role-loc">Data Engineering Intern &mdash; Beijing, China</div>
+  <ul class="exp-highlights">
+    <li>Contributed to large-scale data pipelines at one of China's largest tech companies; hands-on production data engineering experience.</li>
+  </ul>
+  <div class="exp-keywords">
+    <span class="keyword-tag">Data Engineering</span>
+    <span class="keyword-tag">Internship</span>
+  </div>
+</div>
 
           <!-- Footer -->
           <table style="width:100%;border:0;border-spacing:0;border-collapse:separate;margin:0 auto;">
@@ -1173,3 +1386,5 @@
   </script>
 </body>
 </html>
+
+
